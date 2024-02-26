@@ -1,0 +1,117 @@
+[gd_scene load_steps=18 format=3 uid="uid://bsxygwlpgtfqa"]
+
+[ext_resource type="Texture2D" uid="uid://c4x0nakc2mx4b" path="res://Sprites/animated_characters/female_adventurer/femaleAdventurer_idle.png" id="1_7gh8s"]
+[ext_resource type="Texture2D" uid="uid://18vf8gt6112y" path="res://Sprites/animated_characters/female_adventurer/femaleAdventurer_jump.png" id="1_aqn3k"]
+[ext_resource type="Script" path="res://Scripts/Player.gd" id="1_fw0k2"]
+[ext_resource type="Texture2D" uid="uid://y2ysinfru6yp" path="res://Sprites/animated_characters/female_adventurer/femaleAdventurer_climb0.png" id="2_4aups"]
+[ext_resource type="Texture2D" uid="uid://echylu31ilx8" path="res://Sprites/animated_characters/female_adventurer/femaleAdventurer_walk0.png" id="2_hgjvg"]
+[ext_resource type="Texture2D" uid="uid://bdas4y3rvbmnv" path="res://Sprites/animated_characters/female_adventurer/femaleAdventurer_fall.png" id="2_xfc6d"]
+[ext_resource type="Texture2D" uid="uid://dsw7lryfrhdth" path="res://Sprites/animated_characters/female_adventurer/femaleAdventurer_walk1.png" id="3_0eefk"]
+[ext_resource type="Texture2D" uid="uid://c2c313g3skvk7" path="res://Sprites/animated_characters/female_adventurer/femaleAdventurer_climb1.png" id="3_8oiot"]
+[ext_resource type="Texture2D" uid="uid://bg0yguifnm22i" path="res://Sprites/animated_characters/female_adventurer/femaleAdventurer_walk2.png" id="4_w8yug"]
+[ext_resource type="Texture2D" uid="uid://ymqbf1ssmilh" path="res://Sprites/animated_characters/female_adventurer/femaleAdventurer_walk3.png" id="5_x5t8s"]
+[ext_resource type="Texture2D" uid="uid://bw5t7ky1bbhqt" path="res://Sprites/animated_characters/female_adventurer/femaleAdventurer_walk4.png" id="6_dwyh8"]
+[ext_resource type="Texture2D" uid="uid://cscembh2t8qf1" path="res://Sprites/animated_characters/female_adventurer/femaleAdventurer_walk5.png" id="7_payd1"]
+[ext_resource type="Texture2D" uid="uid://tvbs7e13ooho" path="res://Sprites/animated_characters/female_adventurer/femaleAdventurer_walk6.png" id="8_guqvm"]
+[ext_resource type="Texture2D" uid="uid://de463i33blc5t" path="res://Sprites/animated_characters/female_adventurer/femaleAdventurer_walk7.png" id="9_tcyh5"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_k37w4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_aqn3k")
+}],
+"loop": true,
+"name": &"Jumping",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_4aups")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_8oiot")
+}],
+"loop": true,
+"name": &"climbing",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_xfc6d")
+}],
+"loop": true,
+"name": &"falling",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_7gh8s")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 20.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hgjvg")
+}, {
+"duration": 1.0,
+"texture": ExtResource("3_0eefk")
+}, {
+"duration": 1.0,
+"texture": ExtResource("4_w8yug")
+}, {
+"duration": 1.0,
+"texture": ExtResource("5_x5t8s")
+}, {
+"duration": 1.0,
+"texture": ExtResource("6_dwyh8")
+}, {
+"duration": 1.0,
+"texture": ExtResource("7_payd1")
+}, {
+"duration": 1.0,
+"texture": ExtResource("8_guqvm")
+}, {
+"duration": 1.0,
+"texture": ExtResource("9_tcyh5")
+}],
+"loop": true,
+"name": &"walking",
+"speed": 20.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_lxx38"]
+radius = 32.0
+height = 100.0
+
+[sub_resource type="Curve" id="Curve_0aem6"]
+_data = [Vector2(0, 1), 0.0, -0.999756, 0, 0, Vector2(1, 0), -1.00445, 0.0, 0, 0]
+point_count = 2
+
+[node name="Player" type="CharacterBody2D"]
+floor_stop_on_slope = false
+floor_constant_speed = true
+script = ExtResource("1_fw0k2")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_k37w4")
+animation = &"idle"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 14)
+shape = SubResource("CapsuleShape2D_lxx38")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(0.375, 0.375)
+position_smoothing_enabled = true
+position_smoothing_speed = 4.0
+
+[node name="DashEffect2D" type="CPUParticles2D" parent="."]
+emitting = false
+lifetime = 0.33
+one_shot = true
+texture = ExtResource("1_7gh8s")
+gravity = Vector2(0, 0)
+scale_amount_curve = SubResource("Curve_0aem6")
